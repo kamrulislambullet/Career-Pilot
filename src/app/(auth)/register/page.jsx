@@ -18,7 +18,7 @@ export default function RegisterPage() {
             Create Account
           </h1>
           <p className="text-gray-400 text-sm">
-            Join us to start tracking your jobs [cite: 2, 6]
+            Join us to start tracking your jobs
           </p>
         </div>
 
