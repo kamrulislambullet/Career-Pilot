@@ -14,7 +14,7 @@ export default function HomePage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-150 bg-blue-600/10 blur-[120px] rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-32">
-        {/* Hero Section - Roadmap Goal  */}
+        {/* Hero Section  */}
         <div className="text-center mb-28">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-6">
             <span className="relative flex h-2 w-2">
@@ -49,7 +49,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Features Bento Grid - Roadmap Days 2, 3, & 4 [cite: 7, 11, 15] */}
+        {/* Features Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Job Tracking [cite: 7] */}
           <div className="group p-8 rounded-4xl bg-white/5 border border-white/10 hover:bg-white/8 transition-all duration-500">
@@ -63,7 +63,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Resume Builder [cite: 11] */}
+          {/* Resume Builder */}
           <div className="group p-8 rounded-4xl bg-white/5 border border-white/10 hover:bg-white/8 transition-all duration-500">
             <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-8 border border-emerald-500/20 group-hover:scale-110 transition-transform">
               <FileText className="text-emerald-400 w-7 h-7" />
@@ -75,7 +75,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Dashboard/Analytics [cite: 15] */}
+          {/* Dashboard/Analytics */}
           <div className="group p-8 rounded-4xl bg-white/5 border border-white/10 hover:bg-white/8 transition-all duration-500">
             <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-8 border border-purple-500/20 group-hover:scale-110 transition-transform">
               <PieChart className="text-purple-400 w-7 h-7" />
@@ -88,7 +88,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Search & Filter Preview - Roadmap Day 5  */}
+        {/* Search & Filter Preview */}
         <div className="mt-6 p-8 rounded-4xl bg-linear-to-r from-white/5 to-transparent border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="max-w-md">
             <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
