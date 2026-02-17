@@ -21,4 +21,5 @@ export const dbConnect = async (collectionName) => {
 
 export const collections = {
   USERS: "users",
+   JOBS: "jobs",
 };
