@@ -338,24 +338,33 @@ export default function MyJobsCard() {
     setApplicants([]);
   };
 
+   // ─── User Update Status ─────────────────────────────────────────────────────
   const updateStatus = async (appId, newStatus) => {
     if (!["interview", "rejected"].includes(newStatus)) return;
+
+    // appId may be { $oid: "..." } from MongoDB — resolve to plain string
+    const resolvedId = appId?.$oid || appId;
+
     try {
-      const res = await fetch(`/api/applications/${appId}/status`, {
+      const res = await fetch(`/api/applications/${resolvedId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-      if (!res.ok) throw new Error("Update failed");
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Update failed");
+
+      // Compare resolved IDs — plain object comparison always fails
       setApplicants((prev) =>
-        prev.map((app) =>
-          app._id === appId ? { ...app, status: newStatus } : app,
-        ),
+        prev.map((app) => {
+          const id = app._id?.$oid || app._id;
+          return id === resolvedId ? { ...app, status: newStatus } : app;
+        }),
       );
-      alert(`Status updated to ${newStatus}`);
     } catch (err) {
       console.error("Status update error:", err);
-      alert("Status আপডেট করা যায়নি");
+      alert("Status আপডেট করা যায়নি: " + err.message);
     }
   };
 

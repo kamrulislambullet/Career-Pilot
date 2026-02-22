@@ -21,7 +21,7 @@ export async function GET(request, { params }) {
     // 2. Get jobId from params
     const paramsObj = await params;
 
-    let jobId = paramsObj.jobId;
+    let jobId = paramsObj.id;
 
     // 3. Process jobId
     if (!jobId) {
