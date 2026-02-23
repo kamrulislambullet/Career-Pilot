@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Search,
   MapPin,
-  DollarSign,
   Briefcase,
   Globe,
   ArrowUpRight,
@@ -11,14 +10,20 @@ import {
   ChevronDown,
   Tags,
 } from "lucide-react";
+import JobCardSkeleton from "./skeleton/JobCardSkeleton";
 
 export default function AllJobsCard() {
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/jobs")
       .then((res) => res.json())
-      .then((data) => setJobs(data));
+      .then((data) => {
+        setJobs(data);
+        setLoading(false);
+      });
   }, []);
 
   const handleApply = async (jobId) => {
@@ -143,7 +148,11 @@ export default function AllJobsCard() {
 
         {/* Job Listings Grid */}
         <div>
-          {jobs.length === 0 ? (
+          {loading ? (
+            <div>
+              <JobCardSkeleton />
+            </div>
+          ) : jobs.length === 0 ? (
             <div className="text-center py-20 text-gray-500 flex flex-col items-center justify-center">
               <Briefcase size={48} className="mx-auto mb-4 opacity-30" />
               <p className="text-lg font-medium">No jobs found</p>
@@ -194,7 +203,7 @@ export default function AllJobsCard() {
                           <MapPin size={14} /> {job.location}
                         </div>
                         <div className="flex items-center gap-2 text-indigo-400 font-bold text-lg justify-end">
-                          <DollarSign size={18} /> {job.salary}
+                          {job.salary}
                         </div>
                       </div>
 
