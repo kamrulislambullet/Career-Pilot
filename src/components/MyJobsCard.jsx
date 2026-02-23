@@ -300,12 +300,12 @@ export default function MyJobsCard() {
   const [loading, setLoading] = useState(false);
 
   // ─── Update Modal State ───────────────────────────────────────────────────
-  const [editingJob, setEditingJob] = useState(null); // job object being edited
+  const [editingJob, setEditingJob] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [updateLoading, setUpdateLoading] = useState(false);
 
   // ─── Delete Confirm State ─────────────────────────────────────────────────
-  const [deletingJob, setDeletingJob] = useState(null); // job to confirm delete
+  const [deletingJob, setDeletingJob] = useState(null); 
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
@@ -533,7 +533,7 @@ export default function MyJobsCard() {
                       {/* ── Update button ── */}
                       <button
                         onClick={() => openEditModal(job)}
-                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-indigo-500/10 hover:bg-indigo-500 border border-indigo-500/20 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all group/btn"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-indigo-500/10 hover:bg-indigo-500 border border-indigo-500/20 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all group/btn cursor-pointer"
                       >
                         <Edit3 className="w-4 h-4 md:w-5 md:h-5 text-indigo-400 group-hover/btn:text-white" />
                         <span className="text-xs md:text-sm text-indigo-400 group-hover/btn:text-white">
@@ -544,7 +544,7 @@ export default function MyJobsCard() {
                       {/* ── Delete button ── */}
                       <button
                         onClick={() => openDeleteConfirm(job)}
-                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-red-500/10 hover:bg-red-500 border border-red-500/20 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all group/del"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-red-500/10 hover:bg-red-500 border border-red-500/20 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all group/del cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4 md:w-5 md:h-5 text-red-400 group-hover/del:text-white" />
                         <span className="text-xs md:text-sm text-red-400 group-hover/del:text-white">
@@ -556,7 +556,7 @@ export default function MyJobsCard() {
                     {/* Applicants button */}
                     <button
                       onClick={() => openApplicantsModal(job)}
-                      className="sm:flex p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 hover:bg-indigo-600/20 border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-indigo-300 shadow-sm hover:shadow-indigo-500/20"
+                      className="sm:flex p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 hover:bg-indigo-600/20 border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-indigo-300 shadow-sm hover:shadow-indigo-500/20 cursor-pointer"
                     >
                       <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
@@ -629,7 +629,7 @@ export default function MyJobsCard() {
                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                           app.status === "interview"
                             ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 cursor-not-allowed"
-                            : "bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-white"
+                            : "bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-white  cursor-pointer"
                         }`}
                       >
                         <UserCheck size={18} /> Interview
@@ -640,7 +640,7 @@ export default function MyJobsCard() {
                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                           app.status === "rejected"
                             ? "bg-rose-600/30 text-rose-300 border border-rose-500/40 cursor-not-allowed"
-                            : "bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:text-white"
+                            : "bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:text-white cursor-pointer"
                         }`}
                       >
                         <UserX size={18} /> Reject

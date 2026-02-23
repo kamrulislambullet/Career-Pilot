@@ -142,65 +142,74 @@ export default function AllJobsCard() {
         </div>
 
         {/* Job Listings Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 pb-20">
-          {jobs.map((job) => (
-            <div
-              key={job._id}
-              className="group bg-[#0d1117] border border-white/5 p-8 rounded-[2.5rem] hover:bg-[#121822] hover:border-indigo-500/30 transition-all duration-500 shadow-xl"
-            >
-              <div className="flex flex-col md:flex-row justify-between gap-6">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                      <Briefcase className="text-indigo-400" size={28} />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold group-hover:text-indigo-400 transition-colors">
-                        {job.position}
-                      </h2>
-                      <p className="text-gray-400 font-medium flex items-center gap-2">
-                        {job.companyName}{" "}
-                        <Globe size={14} className="text-gray-600" />
-                      </p>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-400 line-clamp-2 leading-relaxed text-sm">
-                    {job.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {job.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[11px] font-medium text-gray-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-between items-end gap-6">
-                  <div className="text-right space-y-2">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm justify-end">
-                      <MapPin size={14} /> {job.location}
-                    </div>
-                    <div className="flex items-center gap-2 text-indigo-400 font-bold text-lg justify-end">
-                      <DollarSign size={18} /> {job.salary}
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleApply(job._id)}
-                    className="flex items-center gap-2 bg-white text-black px-6 py-2.5 rounded-xl font-bold hover:bg-indigo-400 transition-colors active:scale-95 text-sm cursor-pointer"
-                  >
-                    Apply Now <ArrowUpRight size={18} />
-                  </button>
-                </div>
-              </div>
+        <div>
+          {jobs.length === 0 ? (
+            <div className="text-center py-20 text-gray-500 flex flex-col items-center justify-center">
+              <Briefcase size={48} className="mx-auto mb-4 opacity-30" />
+              <p className="text-lg font-medium">No jobs found</p>
             </div>
-          ))}
+          ) : (
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 pb-20">
+              {jobs.map((job) => (
+                <div
+                  key={job._id}
+                  className="group bg-[#0d1117] border border-white/5 p-8 rounded-[2.5rem] hover:bg-[#121822] hover:border-indigo-500/30 transition-all duration-500 shadow-xl"
+                >
+                  <div className="flex flex-col md:flex-row justify-between gap-6">
+                    <div className="flex-1 space-y-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
+                          <Briefcase className="text-indigo-400" size={28} />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-bold group-hover:text-indigo-400 transition-colors">
+                            {job.position}
+                          </h2>
+                          <p className="text-gray-400 font-medium flex items-center gap-2">
+                            {job.companyName}{" "}
+                            <Globe size={14} className="text-gray-600" />
+                          </p>
+                        </div>
+                      </div>
+
+                      <p className="text-gray-400 line-clamp-2 leading-relaxed text-sm">
+                        {job.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {job.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[11px] font-medium text-gray-400"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col justify-between items-end gap-6">
+                      <div className="text-right space-y-2">
+                        <div className="flex items-center gap-2 text-gray-400 text-sm justify-end">
+                          <MapPin size={14} /> {job.location}
+                        </div>
+                        <div className="flex items-center gap-2 text-indigo-400 font-bold text-lg justify-end">
+                          <DollarSign size={18} /> {job.salary}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => handleApply(job._id)}
+                        className="flex items-center gap-2 bg-white text-black px-6 py-2.5 rounded-xl font-bold hover:bg-indigo-400 transition-colors active:scale-95 text-sm cursor-pointer"
+                      >
+                        Apply Now <ArrowUpRight size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
