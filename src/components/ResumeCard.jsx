@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Download, PlusCircle, Mail, Briefcase } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Download, PlusCircle, Mail, Briefcase, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -17,19 +17,50 @@ export default function ResumeCard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (session?.user?.email) {
+      setFormData((prev) => ({ ...prev, email: session.user.email }));
+    }
+  }, [session]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-[#05070a] flex flex-col items-center justify-center gap-6">
+        <div className="relative">
+          <div className="absolute inset-0 blur-2xl bg-cyan-500/30 animate-pulse rounded-full"></div>
+          <Loader2
+            size={48}
+            className="text-cyan-400 animate-spin relative z-10"
+          />
+        </div>
+        <p className="text-cyan-400/60 text-xs font-bold tracking-[0.3em] uppercase animate-pulse">
+          Initializing Engine
+        </p>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") {
+    router.push("/login");
+    return null;
+  }
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
   };
 
   const handleSave = async () => {
-    if (status !== "authenticated") {
-      setError("You must be logged in to save a resume.");
+    if (!formData.title.trim()) {
+      setError("Job Title is required.");
       return;
     }
-
-    if (!formData.name || !formData.email) {
-      setError("Name and Email are required.");
+    if (!formData.skills.trim()) {
+      setError("Skills are required.");
+      return;
+    }
+    if (!formData.experience.trim()) {
+      setError("Experience Summary is required.");
       return;
     }
 
@@ -40,12 +71,13 @@ export default function ResumeCard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          userId: session.user.id || session.user.email, // NextAuth e id thakle id, na thakle email
+          email: session.user.email,
+          name: session.user.name,
+          userId: session.user.id || session.user.email,
         }),
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.error || "Something went wrong");
 
       alert("✅ Resume created successfully!");
@@ -73,9 +105,9 @@ export default function ResumeCard() {
               </label>
               <input
                 name="name"
-                onChange={handleChange}
-                placeholder="John Doe"
-                className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
+                value={session?.user?.name || ""}
+                readOnly
+                className="w-full bg-slate-900/70 border border-slate-700 rounded-xl px-4 py-3 outline-none text-slate-400 cursor-not-allowed"
               />
             </div>
 
@@ -97,9 +129,9 @@ export default function ResumeCard() {
                 </label>
                 <input
                   name="email"
-                  onChange={handleChange}
-                  placeholder="hello@example.com"
-                  className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
+                  value={session?.user?.email || ""}
+                  readOnly
+                  className="w-full bg-slate-900/70 border border-slate-700 rounded-xl px-4 py-3 outline-none text-slate-400 cursor-not-allowed"
                 />
               </div>
             </div>
@@ -111,6 +143,7 @@ export default function ResumeCard() {
               <textarea
                 name="skills"
                 onChange={handleChange}
+                placeholder="React, Node.js, Tailwind..."
                 className="w-full h-24 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
               />
             </div>
@@ -122,6 +155,7 @@ export default function ResumeCard() {
               <textarea
                 name="experience"
                 onChange={handleChange}
+                placeholder="Describe your work experience..."
                 className="w-full h-32 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
               />
             </div>
@@ -134,11 +168,13 @@ export default function ResumeCard() {
 
             <button
               onClick={handleSave}
-              disabled={loading || status === "loading"}
-              className="w-full bg-linear-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+              disabled={loading}
+              className="w-full bg-linear-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
-                "Saving..."
+                <span className="flex items-center gap-2">
+                  <Loader2 size={20} className="animate-spin" /> Saving...
+                </span>
               ) : (
                 <>
                   <Download size={20} /> Save & Generate PDF
@@ -150,17 +186,17 @@ export default function ResumeCard() {
 
         {/* RIGHT SIDE: Real-time Preview */}
         <div className="sticky top-8">
-          <div className="bg-white text-slate-900 md:p-10 p-6 rounded-xl shadow-0_20px_50px_rgba(8,_112,_184,_0.7) min-h-175 flex flex-col transform hover:scale-[1.01] transition-transform">
+          <div className="bg-white text-slate-900 md:p-10 p-6 rounded-xl min-h-176 flex flex-col transform hover:scale-[1.01] transition-transform shadow-[0_20px_50px_rgba(8,112,184,0.7)]">
             <header className="border-b-4 border-cyan-500 pb-6 mb-8">
               <h1 className="text-4xl font-black uppercase tracking-tighter">
-                {formData.name || "Your Name"}
+                {session?.user?.name}
               </h1>
               <p className="text-cyan-600 font-bold text-lg mt-1 tracking-widest">
                 {formData.title || "Professional Title"}
               </p>
               <div className="flex gap-4 mt-4 text-sm text-slate-500 italic">
                 <span className="flex items-center gap-1">
-                  <Mail size={14} /> {formData.email || "email@example.com"}
+                  <Mail size={14} /> {session?.user?.email}
                 </span>
               </div>
             </header>
@@ -170,7 +206,8 @@ export default function ResumeCard() {
                 <Briefcase size={20} className="text-cyan-600" /> EXPERIENCE
               </h3>
               <p className="text-slate-700 leading-relaxed whitespace-pre-line">
-                {formData.experience || "Tell the world about your achievements..."}
+                {formData.experience ||
+                  "Tell the world about your achievements..."}
               </p>
             </section>
 
