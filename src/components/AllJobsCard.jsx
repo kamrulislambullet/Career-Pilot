@@ -11,6 +11,8 @@ import {
   Tags,
 } from "lucide-react";
 import JobCardSkeleton from "./skeleton/JobCardSkeleton";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function AllJobsCard() {
   const [jobs, setJobs] = useState([]);
@@ -36,11 +38,15 @@ export default function AllJobsCard() {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.message);
+      toast.error(data.message);
       return;
     }
 
-    alert("Applied Successfully");
+    Swal.fire({
+      icon: "success",
+      title: "Application Submitted",
+      text: "Your application has been submitted successfully.",
+    });
   };
 
   return (

@@ -1,16 +1,19 @@
 "use client";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
+
+const initialState = {
+  position: "",
+  company: "",
+  location: "",
+  salary: "",
+  type: "Full-time",
+  tags: "",
+  description: "",
+};
 
 export default function JobPostCard() {
-  const [form, setForm] = useState({
-    position: "",
-    company: "",
-    location: "",
-    salary: "",
-    type: "Full-time",
-    tags: "",
-    description: "",
-  });
+  const [form, setForm] = useState(initialState);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,7 +29,12 @@ export default function JobPostCard() {
     });
 
     if (res.ok) {
-      alert("Job posted successfully");
+      setForm(initialState);
+      Swal.fire({
+        icon: "success",
+        title: "Job Posted!",
+        text: "Your job has been published successfully.",
+      });
     }
   };
 
@@ -38,6 +46,7 @@ export default function JobPostCard() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             name="position"
+            value={form.position} 
             placeholder="Job Position"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
@@ -45,6 +54,7 @@ export default function JobPostCard() {
 
           <input
             name="company"
+            value={form.company} 
             placeholder="Company Name"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
@@ -53,12 +63,14 @@ export default function JobPostCard() {
           <div className="grid grid-cols-2 gap-4">
             <input
               name="location"
+              value={form.location}
               placeholder="Location"
               className="bg-white/5 p-3 rounded-xl outline-none"
               onChange={handleChange}
             />
             <input
               name="salary"
+              value={form.salary}
               placeholder="Salary Range"
               className="bg-white/5 p-3 rounded-xl outline-none"
               onChange={handleChange}
@@ -67,6 +79,7 @@ export default function JobPostCard() {
 
           <select
             name="type"
+            value={form.type}
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
           >
@@ -78,6 +91,7 @@ export default function JobPostCard() {
 
           <input
             name="tags"
+            value={form.tags}
             placeholder="Tags (React, Node, MongoDB)"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
@@ -85,6 +99,7 @@ export default function JobPostCard() {
 
           <textarea
             name="description"
+            value={form.description}
             rows="4"
             placeholder="Job Description"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"

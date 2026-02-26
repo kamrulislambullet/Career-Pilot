@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Download, PlusCircle, Mail, Briefcase, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function ResumeCard() {
   const router = useRouter();
@@ -80,7 +82,7 @@ export default function ResumeCard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-      alert("✅ Resume created successfully!");
+      toast.success("Resume generated successfully! Redirecting to profile...");
       router.push("/profile");
     } catch (err) {
       setError(err.message);
