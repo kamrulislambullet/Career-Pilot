@@ -40,7 +40,7 @@ export default function NotFound() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 transition-all px-12 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-500/20 whitespace-nowrap"
           >
             <Home size={18} />
-            Back to Dashboard
+            Back to Home
           </Link>
         </div>
 
