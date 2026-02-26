@@ -50,6 +50,7 @@ export default function JobPostCard() {
             placeholder="Job Position"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
+            required
           />
 
           <input
@@ -58,6 +59,7 @@ export default function JobPostCard() {
             placeholder="Company Name"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
+            required
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -67,6 +69,7 @@ export default function JobPostCard() {
               placeholder="Location"
               className="bg-white/5 p-3 rounded-xl outline-none"
               onChange={handleChange}
+              required
             />
             <input
               name="salary"
@@ -74,6 +77,7 @@ export default function JobPostCard() {
               placeholder="Salary Range"
               className="bg-white/5 p-3 rounded-xl outline-none"
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -82,6 +86,7 @@ export default function JobPostCard() {
             value={form.type}
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
+            required
           >
             <option className="text-black">Full-time</option>
             <option className="text-black">Part-time</option>
@@ -95,6 +100,7 @@ export default function JobPostCard() {
             placeholder="Tags (React, Node, MongoDB)"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
+            required
           />
 
           <textarea
@@ -104,6 +110,7 @@ export default function JobPostCard() {
             placeholder="Job Description"
             className="w-full bg-white/5 p-3 rounded-xl outline-none"
             onChange={handleChange}
+            required
           />
 
           <button className="w-full bg-indigo-600 py-3 rounded-xl font-bold hover:bg-indigo-500 transition cursor-pointer">
