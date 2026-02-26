@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import {
   Briefcase,
-  CheckCircle2,
   Clock,
   XCircle,
   TrendingUp,
@@ -11,10 +10,12 @@ import {
   Target,
   LogIn,
   ShieldOff,
+  ArrowRight,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import DashboardSkeleton from "./skeleton/DashboardSkeleton";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function DashboardStatus() {
   const [applications, setApplications] = useState([]);
@@ -241,33 +242,92 @@ export default function DashboardStatus() {
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-[#0d1117] border border-white/5 p-8 rounded-[2.5rem]">
-            <h3 className="text-xl font-bold mb-6">Recent Activity</h3>
-            <div className="space-y-6">
-              {applications.length === 0 && (
-                <p className="text-gray-500 text-sm">No applications yet</p>
-              )}
-              {applications.map((app) => (
-                <div
-                  key={app._id}
-                  className="flex gap-4 items-center group cursor-pointer"
-                >
-                  <div className="w-2 h-2 rounded-full bg-indigo-500 group-hover:scale-150 transition-all" />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">
-                      Applied to {app.companyName} ({app.position})
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(app.createdAt).toLocaleString()}
-                    </p>
-                  </div>
-                  <CheckCircle2 size={16} className="text-gray-600" />
-                </div>
-              ))}
+          <div className="bg-[#0d1117] border border-white/5 p-8 rounded-[2.5rem] relative overflow-hidden group">
+            {/* Subtle Background Glow for the card */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-600/5 blur-[80px] rounded-full pointer-events-none" />
+
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-xl font-bold tracking-tight">
+                Recent Activity
+              </h3>
+              <span className="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md font-bold uppercase tracking-wider">
+                Live Feed
+              </span>
             </div>
-            <button className="w-full mt-10 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all text-sm">
-              View All History
-            </button>
+
+            <div className="relative space-y-1">
+              {/* Vertical Line in the background for Timeline feel */}
+              {applications.length > 0 && (
+                <div className="absolute left-3.75 top-2 bottom-2 w-px bg-linear-to-b from-blue-500/50 via-white/5 to-transparent" />
+              )}
+
+              {applications.length === 0 ? (
+                <div className="py-10 text-center">
+                  <p className="text-gray-500 text-sm italic font-light">
+                    No applications tracked yet.
+                  </p>
+                </div>
+              ) : (
+                applications.slice(0, 4).map((app, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    key={app._id}
+                    className="flex gap-4 items-start py-4 px-2 rounded-2xl hover:bg-white/2 transition-all group cursor-pointer"
+                  >
+                    {/* Timeline Dot/Icon */}
+                    <div className="relative z-10 mt-1">
+                      <div className="w-8 h-8 rounded-xl bg-[#161b22] border border-white/10 flex items-center justify-center group-hover:border-blue-500/50 transition-colors shadow-lg">
+                        <Briefcase
+                          size={14}
+                          className="text-gray-400 group-hover:text-blue-400 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-gray-200 truncate group-hover:text-white transition-colors">
+                        {app.position}{" "}
+                        <span className="text-gray-500 font-normal ml-1">
+                          at
+                        </span>{" "}
+                        {app.companyName}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-[11px] text-gray-500 font-medium uppercase tracking-tight">
+                          {new Date(app.createdAt).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </p>
+                        <span className="w-1 h-1 rounded-full bg-gray-700" />
+                        <p className="text-[11px] text-blue-500/70 font-semibold uppercase">
+                          {app.status || "Applied"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="self-center">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 bg-blue-500/10 text-blue-400 transition-all transform translate-x-2 group-hover:translate-x-0">
+                        <ArrowRight size={14} />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </div>
+
+            <Link
+              href="/user-dashboard/total-applied"
+              className="w-full mt-8 py-4 bg-white/3 border border-white/5 rounded-2xl font-bold hover:bg-white/8 hover:border-white/10 transition-all text-[13px] text-gray-400 hover:text-white flex items-center justify-center gap-2 group"
+            >
+              View Full History
+              <ArrowRight
+                size={14}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
           </div>
         </div>
       </div>
