@@ -10,7 +10,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-// --- Skeleton Component ---
+// --- Fixed Skeleton Card Component for Interviews ---
 const SkeletonCard = () => (
   <div className="bg-[#0f1117] border border-slate-800 rounded-2xl p-6 animate-pulse">
     <div className="flex justify-between items-start mb-6">
@@ -18,9 +18,18 @@ const SkeletonCard = () => (
       <div className="w-20 h-6 bg-slate-800 rounded-full"></div>
     </div>
     <div className="space-y-4">
-      <div className="h-6 bg-slate-800 rounded-md w-3/4"></div>
-      <div className="h-10 bg-slate-900/50 rounded-lg border border-slate-800/50 w-full"></div>
-      <div className="h-4 bg-slate-800 rounded-md w-1/2 mt-4"></div>
+      <div className="space-y-2">
+        <div className="h-7 bg-slate-800 rounded-md w-3/4"></div>{" "}
+        <div className="h-4 bg-slate-800 rounded-md w-1/2"></div>{" "}
+      </div>
+      <div className="pt-2">
+        <div className="h-14 bg-indigo-950/10 rounded-lg border border-slate-800/50 w-full"></div>{" "}
+      </div>
+      <div className="h-4 bg-slate-800 rounded-md w-2/3 mt-4"></div>{" "}
+      <div className="mt-8 pt-4 border-t border-slate-800/50 flex justify-between items-center">
+        <div className="h-3 bg-slate-800 rounded w-16"></div>{" "}
+        <div className="h-3 bg-slate-800 rounded w-20"></div>{" "}
+      </div>
     </div>
   </div>
 );
@@ -65,7 +74,8 @@ export default function InterviewsPage() {
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading
-            ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
+            ? // Displaying 6 skeletons for a full grid feel
+              [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
             : interviews.map((app) => (
                 <div
                   key={app._id}
@@ -98,7 +108,6 @@ export default function InterviewsPage() {
                       </div>
 
                       <div className="space-y-2 pt-2">
-                        {/* Interview Link / Location Placeholder */}
                         <div className="flex items-center gap-3 text-sm text-slate-400 bg-indigo-950/20 p-3 rounded-lg border border-indigo-500/10">
                           <Video className="w-4 h-4 text-indigo-400" />
                           <span className="text-indigo-200 font-medium">
