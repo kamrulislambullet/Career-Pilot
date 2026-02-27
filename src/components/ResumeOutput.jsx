@@ -1,29 +1,49 @@
 "use client";
 import { PlusCircle, Mail, Briefcase } from "lucide-react";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 export default function ResumeOutput() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchResume = async () => {
       try {
         const res = await fetch("/api/resume/me");
         const json = await res.json();
-        console.log(json);
         if (!res.ok) throw new Error(json.error || "Failed to load resume");
         setData(json.resume);
         setTimeout(() => setVisible(true), 150);
       } catch (err) {
-        console.error(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
     fetchResume();
   }, []);
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full py-20 text-center text-slate-400 space-y-3">
+        <Link href="/resume">
+          <PlusCircle
+            size={40}
+            className="opacity-20 text-cyan-500 hover:text-blue-600"
+          />
+        </Link>
+        <p className="text-sm font-semibold uppercase tracking-widest">
+          No Resume Found
+        </p>
+        <p className="text-xs text-slate-500">
+          Fill in the form to generate your resume
+        </p>
+      </div>
+    );
+  }
 
   const formData = data || {};
 
