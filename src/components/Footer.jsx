@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import {
@@ -8,8 +9,14 @@ import {
   Mail,
   ArrowUpRight,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function Footer() {
+  const { data: session } = useSession();
+  const role = session?.user?.role;
+
+  if (role === "super_admin") return null;
+
   return (
     <footer className="relative pt-24 pb-12 overflow-hidden border-t border-white/10 bg-linear-to-b from-[#0f1115] via-[#090a0f] to-[#050505]">
       {/* Dynamic Gradient Orbs */}

@@ -13,6 +13,8 @@ import {
   Globe,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const fadeInUp = {
@@ -24,6 +26,16 @@ export default function HomePage() {
 
   const { data: session, status } = useSession();
   const role = session?.user?.role;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (role === "super_admin") {
+      router.replace("/admin-dashboard");
+    }
+  }, [role, status]);
+
+  if (role === "super_admin") return null;
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-blue-500/30 overflow-x-hidden relative">
