@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 const userOnlyRoutes = ["/user-dashboard", "/resume"];
 const companyOnlyRoutes = ["/my-jobs", "/post-job"];
+const adminOnlyRoutes = ["/admin-dashboard"];
 
 export async function middleware(req) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -30,6 +31,12 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL("/unauthorized", req.url));
   }
 
+  // Admin route e user/company gele block
+  const isAdminRoute = adminOnlyRoutes.some((r) => reqPath.startsWith(r));
+  if (isAdminRoute && role !== "super_admin") {
+    return NextResponse.redirect(new URL("/unauthorized", req.url));
+  }
+
   return NextResponse.next();
 }
 
@@ -39,5 +46,6 @@ export const config = {
     "/resume/:path*",
     "/my-jobs/:path*",
     "/post-job/:path*",
+    "/admin-dashboard/:path*",
   ],
 };
