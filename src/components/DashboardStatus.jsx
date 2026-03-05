@@ -308,11 +308,11 @@ export default function DashboardStatus() {
                       </div>
                     </div>
 
-                    <div className="self-center">
+                    <Link href={`/user-dashboard/${app.status === "interview" ? "interviews" : app.status}`} className="self-center">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 bg-blue-500/10 text-blue-400 transition-all transform translate-x-2 group-hover:translate-x-0">
                         <ArrowRight size={14} />
                       </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))
               )}
