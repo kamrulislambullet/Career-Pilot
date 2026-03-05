@@ -11,7 +11,7 @@ export async function POST(req) {
     }
 
     const body = await req.json();
-    const { name, email, skills, experience, title } = body;
+    const { name, email, skills, experience, title, portfolio } = body;
 
     if (!name || !email) {
       return Response.json(
@@ -33,6 +33,7 @@ export async function POST(req) {
           name,
           email,
           skills,
+          portfolio,
           experience,
           title,
           updatedAt: new Date(),

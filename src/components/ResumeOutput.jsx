@@ -1,5 +1,5 @@
 "use client";
-import { PlusCircle, Mail, Briefcase } from "lucide-react";
+import { PlusCircle, Mail, Briefcase, Globe, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
@@ -69,6 +69,14 @@ export default function ResumeOutput() {
           </div>
         </section>
 
+        {/* Portfolio Section Skeleton */}
+        <section className="mb-8">
+          <div className="h-6 w-32 bg-slate-200 rounded-sm border-l-4 border-slate-200 pl-3 mb-4"></div>
+          <div className="space-y-2">
+            <div className="h-3 w-full bg-slate-100 rounded"></div>
+          </div>
+        </section>
+
         {/* Skills Section Skeleton */}
         <section>
           <div className="h-6 w-24 bg-slate-200 rounded-sm border-l-4 border-slate-200 pl-3 mb-4"></div>
@@ -105,6 +113,21 @@ export default function ResumeOutput() {
         <p className="text-slate-700 leading-relaxed whitespace-pre-line">
           {formData.experience || "Tell the world about your achievements..."}
         </p>
+      </section>
+
+      <section className="mb-8">
+        <h3 className="flex items-center gap-2 text-xl font-bold border-l-4 border-cyan-500 pl-3 mb-4">
+          <Globe size={20} className="text-cyan-600" /> PORTFOLIO
+        </h3>
+        <a
+          href={formData.portfolio}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-semibold hover:underline break-all"
+        >
+          <ExternalLink size={15} />
+          {formData.portfolio}
+        </a>
       </section>
 
       <section>

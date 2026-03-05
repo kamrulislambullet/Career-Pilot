@@ -1,9 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Download, PlusCircle, Mail, Briefcase, Loader2 } from "lucide-react";
+import {
+  Download,
+  PlusCircle,
+  Mail,
+  Briefcase,
+  Loader2,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 export default function ResumeCard() {
@@ -15,6 +22,7 @@ export default function ResumeCard() {
     skills: "",
     experience: "",
     title: "",
+    portfolio: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -57,6 +65,10 @@ export default function ResumeCard() {
       setError("Job Title is required.");
       return;
     }
+    if (!formData.portfolio.trim()) {
+      setError("Portfolio Website is required.");
+      return;
+    }
     if (!formData.skills.trim()) {
       setError("Skills are required.");
       return;
@@ -93,7 +105,7 @@ export default function ResumeCard() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-200 md:px-8 px-2 pt-28 pb-14 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         {/* LEFT SIDE: Editor */}
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 md:p-8 p-4 rounded-3xl shadow-2xl">
           <h2 className="text-3xl font-bold bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6">
@@ -113,7 +125,7 @@ export default function ResumeCard() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2">
                   Job Title
@@ -138,6 +150,24 @@ export default function ResumeCard() {
               </div>
             </div>
 
+            <div className="group">
+              <label className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-cyan-400 transition-colors">
+                Portfolio Website
+              </label>
+              <div className="relative">
+                <Globe
+                  size={16}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors"
+                />
+                <input
+                  name="portfolio"
+                  onChange={handleChange}
+                  placeholder="https://yourportfolio.com"
+                  className="w-full bg-slate-900/50 border border-slate-700 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-2">
                 Skills (Comma separated)
@@ -146,7 +176,7 @@ export default function ResumeCard() {
                 name="skills"
                 onChange={handleChange}
                 placeholder="React, Node.js, Tailwind..."
-                className="w-full h-24 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
+                className="w-full h-20 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
               />
             </div>
 
@@ -158,7 +188,7 @@ export default function ResumeCard() {
                 name="experience"
                 onChange={handleChange}
                 placeholder="Describe your work experience..."
-                className="w-full h-32 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
+                className="w-full h-24 bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500/50"
               />
             </div>
 
@@ -211,6 +241,21 @@ export default function ResumeCard() {
                 {formData.experience ||
                   "Tell the world about your achievements..."}
               </p>
+            </section>
+
+            <section className="mb-8">
+              <h3 className="flex items-center gap-2 text-xl font-bold border-l-4 border-cyan-500 pl-3 mb-4">
+                <Globe size={20} className="text-cyan-600" /> PORTFOLIO
+              </h3>
+              <a
+                href={formData.portfolio}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-semibold hover:underline break-all"
+              >
+                <ExternalLink size={15} />
+                {formData.portfolio}
+              </a>
             </section>
 
             <section>

@@ -21,6 +21,7 @@ import {
   PlusCircle,
   FileText,
   ChevronLeft,
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import MyJobCardSkeleton from "./MyJobCardSkeleton";
@@ -95,6 +96,22 @@ function ResumeView({ data, loading }) {
         <p className="text-gray-300 leading-relaxed text-sm whitespace-pre-line">
           {data.experience || "No experience listed."}
         </p>
+      </section>
+
+      {/* Portfolio */}
+      <section>
+        <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-gray-400 border-l-2 border-cyan-500 pl-3 mb-3">
+          <Globe size={14} className="text-cyan-400" /> Portfolio
+        </h3>
+         <a
+          href={data.portfolio}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-semibold hover:underline break-all"
+        >
+          <ExternalLink size={15} />
+          {data.portfolio}
+        </a>
       </section>
 
       {/* Skills */}
@@ -301,7 +318,7 @@ export default function MyJobsCard() {
     "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500/60 transition-colors";
 
   return (
-    <div className="min-h-screen w-full bg-[#030407] text-white px-4 sm:px-6 py-16 md:py-12 overflow-x-hidden relative font-sans">
+    <div className="my-jobs-container">
       {/* Background glows */}
       <div className="absolute top-[-5%] right-[-5%] w-64 h-64 md:w-125 md:h-125 bg-indigo-600/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-5%] left-[-5%] w-48 h-48 md:w-100 md:h-100 bg-purple-600/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
@@ -340,7 +357,7 @@ export default function MyJobsCard() {
         </div>
         
         {/* jobs card */}
-        <div className="grid grid-cols-1 gap-6 pb-20">
+        <div className="grid grid-cols-1 gap-6">
           {jobsLoading ? (
             <>
               {[1, 2, 3].map((i) => (
