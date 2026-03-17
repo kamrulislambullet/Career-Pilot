@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { dbConnect, collections } from "@/lib/dbConnect";
 
-// Helper function to login user via credentials
 async function loginUser({ email, password }) {
   const users = await dbConnect(collections.USERS);
   const user = await users.findOne({ email });
@@ -17,7 +16,7 @@ async function loginUser({ email, password }) {
     name: user.name,
     email: user.email,
     role: user.role || "user",
-    image: user.photoUrl || null, // include avatar
+    image: user.photoUrl || null,
   };
 }
 
@@ -27,7 +26,6 @@ export const authOptions = {
   },
 
   providers: [
-    // Credentials Login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -39,7 +37,6 @@ export const authOptions = {
       },
     }),
 
-    // Google Login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -47,7 +44,6 @@ export const authOptions = {
   ],
 
   callbacks: {
-    // SignIn callback → Google auto upsert in DB
     async signIn({ user, account }) {
       if (account.provider === "google") {
         const users = await dbConnect(collections.USERS);
@@ -58,29 +54,35 @@ export const authOptions = {
               name: user.name,
               photoUrl: user.image,
               provider: "google",
-              role: "user",
               updatedAt: new Date(),
             },
-            $setOnInsert: { createdAt: new Date() },
+            $setOnInsert: {
+              role: "user", 
+              createdAt: new Date(),
+            },
           },
-          { upsert: true }
+          { upsert: true },
         );
       }
       return true;
     },
 
-    // JWT callback → attach email, role, image
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.role = user.role || "user";
         token.image = user.image || null;
       }
+
+      if (account || user) {
+        const users = await dbConnect(collections.USERS);
+        const dbUser = await users.findOne({ email: token.email });
+        token.role = dbUser?.role || "user";
+      }
+
       return token;
     },
 
-    // Session callback → pass token fields to session
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.email = token.email;
