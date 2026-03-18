@@ -21,6 +21,9 @@ export const metadata = {
     template: "%s | CareerPilot",
   },
   description: "Track your career journey",
+  icons: {
+    icon: "/project_logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
